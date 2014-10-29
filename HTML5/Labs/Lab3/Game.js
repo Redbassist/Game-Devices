@@ -14,29 +14,7 @@ function Game()
 	this.score1 = 0;
 	this.score2 = 0;
 
-	//setting up key movement!
-	this.Key = {
-		_pressed = {},
-
-		UP : 38,
-		DOWN : 40,
-		UP2 : 87,
-		DOWN2 : 83,
-
-		isDown: function(keyCode) {
-			return this._pressed[keyCode]
-		},
-
-		onKeyDown: function(event) {
-			this._pressed[event.keyCode] = true;
-		},
-
-		onKeyup: function(event) {
-			delete this._pressed[event.keyCode];
-		}
-	};
-
-	document.addEventListener("keydown", move); //this means that function move will be called
+	document.addEventListener("keydown", setMove); //this means that function move will be called
 	document.addEventListener("keyup", stopMove)
 }
 
@@ -71,11 +49,12 @@ Game.prototype.gameLoop = function()
 
 Game.prototype.update = function() 
 {
-	//to get input from the player
+	game.paddle1.MovePaddle();
+	game.paddle2.MovePaddle();
 }
 
 //takes e as the event
-function move(e) 
+function setMove(e) 
 {
 	/*outputting the key pressed
 	console.log(e.keyCode);
@@ -85,10 +64,10 @@ function move(e)
 
 }
 
-function stopMove()
+function stopMove(e)
 {
-	game.paddle1.StopMove();
-	game.paddle2.StopMove();
+	game.paddle1.StopMove(e, 2);
+	game.paddle2.StopMove(e, 1);
 }
 
 Game.prototype.clearScreen = function() {

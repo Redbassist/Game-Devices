@@ -6,8 +6,8 @@ function Paddle(x, y, posX, posY)
 	this.ySize = 110;
 	this.screenWidth = x;
 	this.screenHeight = y;
-	this.moveUp = false;
-	this.moveDown = false;
+	this.moveUp = 0;
+	this.moveDown = 0;
 }
 
 Paddle.prototype.Draw = function(ctx) 
@@ -20,37 +20,46 @@ Paddle.prototype.Move = function(e, paddleNumber)
 	if (paddleNumber == 1)
 	{
 		if (e.keyCode == 38)
-		{
-			this.moveUp = true;
-		}
+			this.moveUp = 1;
+
 		else if (e.keyCode == 40)
-		{
-			this.moveDown = true;
-		}
+			this.moveDown = 1;
 	}
 	else
 	{
 		if (e.keyCode == 87)
-		{
-			this.moveUp = true;
-		}
+			this.moveUp = 1;
+
 		else if (e.keyCode == 83)
-		{
-			this.moveDown = true;
-		}
+			this.moveDown = 1;
 	}
-
-	if (this.moveUp == true)
-		this.y -= 8;
-	else if (this.moveDown == true)
-		this.y += 8;
-
-	if (this.moveUp == false)
-		console.log("false");
 }
 
-Paddle.prototype.StopMove = function() 
+Paddle.prototype.MovePaddle = function()
+{	
+
+	if (this.moveUp == 1 && this.y > 0)
+		this.y -= 8;
+	else if (this.moveDown == 1 && this.y < this.screenHeight - this.ySize)
+		this.y += 8;
+}
+
+Paddle.prototype.StopMove = function(e, paddleNumber) 
 {
-	this.moveUp = false;
-	this.moveDown = false;
+	if (paddleNumber == 1)
+	{
+		if (e.keyCode == 38)
+			this.moveUp = 0;
+
+		else if (e.keyCode == 40)
+			this.moveDown = 0;
+	}
+	else
+	{
+		if (e.keyCode == 87)
+			this.moveUp = 0;
+
+		else if (e.keyCode == 83)
+			this.moveDown = 0;
+	}
 }
